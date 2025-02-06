@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Map demo</title>
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+      integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+      crossorigin=""
+    />
+    <script
+      src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+      55.5939,
+      13.0178
+      integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+      crossorigin=""
+    ></script>
+    <style>
+      body {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 98vh;
+      }
+      #map {
+        width: 1800px;
+        height: 1000px;
+      }
+      .popup {
+        font-size: 1.1rem;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="map"></div>
+  </body>
+  <script>
+    const map = L.map("map");
+    map.setView([55.5939, 13.0178], 12);
+    L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
+      attribution:
+        '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+    }).addTo(map);
+
+    const customIcon = L.icon({
+      iconUrl: "./house-pin.svg",
+      iconSize: [70, 70],
+    });
+
+    const data = {
+      Newton: {
+        coords: [55.609831, 13.043615],
+        title: "Newton Kompetensutveckling",
+        address: `Norra Bulltoftavägen 65, Kirsebergsstaden, 212 43 Malmö, Malmö kommun, Skåne län, Sverige`,
+        website: "https://www.newton.se/",
+        phone: 1234567890,
+      },
+      BeijersPark: {
+        coords: [55.610269, 13.049966],
+        title: "Beijers Park",
+      },
+      MalmoC: {
+        coords: [55.609475, 13.000082],
+        title: "Malmö C",
+      },
+      Arlanda: {
+        coords: [59.64734, 17.93518],
+        title: "Arlanda",
+      },
+      GoteborgsCentral: {
+        coords: [57.709171, 11.973011],
+        title: "Göteborgs Central",
+      },
+      Smygehuk: {
+        coords: [55.337098, 13.360252],
+        title: "Smygehuk",
+      },
+    };
+
+    for (let key in data) {
+      const marker = data[key];
+      L.marker(marker.coords, {
+        title: marker.title,
+      })
+        .bindPopup(
+          `<span class="popup">
+            <h3><b>${marker.title}</b></h3>
+            <b>Adress:</b>${marker.coords}<br>
+            ${marker.address}<br>
+            <b><a href="${marker.website}" target="_blank">Besök hemsida</a></b><br>
+            <b>Telefon:</b> <a href="tel:${marker.phone}">${marker.phone}</a>
+        </span>`
+        )
+        .addTo(map);
+    }
+  </script>
+</html>
